@@ -54,7 +54,7 @@ public class DatabaseConnection {
 
     public void executeQuery(String... s){
         //IMPLEMENT
-        //GitHub test
+        //GitHub testing sth
     }
 
     public void terminateConnection() throws Exception{
