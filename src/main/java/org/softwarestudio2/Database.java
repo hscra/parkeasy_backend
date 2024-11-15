@@ -63,7 +63,7 @@ public class Database {
 
     private void loadDriver() throws Exception{
         try{
-            Class.forName("org.postgresql.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         }catch (ClassNotFoundException ee){
             throw new Exception("Driver file not found: " + ee.getMessage());
         }
