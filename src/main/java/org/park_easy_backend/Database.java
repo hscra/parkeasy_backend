@@ -1,13 +1,10 @@
-package org.softwarestudio2;
+package org.park_easy_backend;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Database {
     public Connection connection;
@@ -20,7 +17,7 @@ public class Database {
         String passwd = "";
 
         try (BufferedReader reader = new BufferedReader(
-                new FileReader(System.getProperty("user.dir") + "\\src\\main\\java\\org\\softwarestudio2\\dbconfig.txt"))) {
+                new FileReader(System.getProperty("user.dir") + "\\park-easy-backend\\src\\main\\java\\org\\park_easy_backend\\SPOILER_database.config"))) {
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -69,42 +66,32 @@ public class Database {
         }
     }
 
-    public void executeQuery(String[] queries, Object[][] parameters) {
+    public void executeQueryWithParams(String sql, Object... params) {
         try {
-            // Begin transaction
-            this.connection.setAutoCommit(false);
-
-            for (int i = 0; i < queries.length; i++) {
-                try (PreparedStatement preparedStatement = this.connection.prepareStatement(queries[i])) {
-                    // Set query parameters
-                    if (parameters != null && i < parameters.length) {
-                        for (int j = 0; j < parameters[i].length; j++) {
-                            preparedStatement.setObject(j + 1, parameters[i][j]);
-                        }
-                    }
-
-                    // Execute query
-                    preparedStatement.execute();
-                }
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            for(int i = 0; i < params.length; i++){
+                stmt.setObject(i + 1, params[i]);
             }
+            int rowsAffected = stmt.executeUpdate();
 
-            // Commit transaction
-            this.connection.commit();
+            if(rowsAffected == 0){
+                throw new RuntimeException("Query failed: " + sql);
+            }
+            System.out.println("Query executed successfully: " + sql);
         } catch (SQLException e) {
-            try {
-                // Rollback on error
-                this.connection.rollback();
-                throw new RuntimeException("Error executing queries. Transaction rolled back: " + e.getMessage(), e);
-            } catch (SQLException rollbackEx) {
-                throw new RuntimeException("Error during rollback: " + rollbackEx.getMessage(), rollbackEx);
-            }
-        } finally {
-            try {
-                // Reset auto-commit to default
-                this.connection.setAutoCommit(true);
-            } catch (SQLException e) {
-                throw new RuntimeException("Error resetting auto-commit: " + e.getMessage(), e);
-            }
+            System.err.println("Error executing query: " + e.getMessage());
+            throw new RuntimeException("Query execution failed: " + sql, e);
+        }
+    }
+
+    public void executeSimpleQuery(String sql) {
+        try (Statement statement = this.connection.createStatement()) {
+            // Execute the provided query
+            statement.execute(sql);
+            System.out.println("Query executed successfully: " + sql);
+        } catch (SQLException e) {
+            System.err.println("Error executing query: " + e.getMessage());
+            throw new RuntimeException("Query execution failed: " + sql, e);
         }
     }
 
@@ -118,5 +105,25 @@ public class Database {
         }catch(SQLException ee){
             throw new Exception("Invalid connection: " + ee.getMessage());
         }
+    }
+
+    public static void main(String[] args){
+        Database db = new Database();
+        try {
+//            String createTableQuery = "CREATE TABLE sex ("
+//                    + "id INT AUTO_INCREMENT PRIMARY KEY, "
+//                    + "name VARCHAR(100) NOT NULL, "
+//                    + "email VARCHAR(255) NOT NULL UNIQUE"
+//                    + ")";
+//            db.executeSimpleQuery(createTableQuery);
+
+//            String sqlWithParams = "INSERT INTO users (name, email) values (?,?)";
+//            db.executeQueryWithParams(sqlWithParams, "John", "John@email");
+
+            System.out.println("All queries executed successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
