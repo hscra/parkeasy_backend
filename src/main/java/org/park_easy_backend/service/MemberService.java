@@ -28,18 +28,20 @@ public class MemberService {
 
          */
         Optional<MemberEntity> byMemberEmail = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
-        if(byMemberEmail.isPresent()){
+        if (byMemberEmail.isPresent()) {
             MemberEntity memberEntity = byMemberEmail.get();
-            if (memberEntity.getMemberPassword().equals(memberDTO.getMemberPassword())){
-                // entity -> dto
-                MemberDTO dto = MemberDTO.toMemberDTO(memberEntity);
-                return dto;
-            } else {
-                return null;
-            }
+            System.out.println(memberEntity);
+            return MemberDTO.toMemberDTO(memberEntity);
+//            if (memberEntity.getMemberPassword().equals(memberDTO.getMemberPassword())) {
+//                // entity -> dto
+//                MemberDTO dto = MemberDTO.toMemberDTO(memberEntity);
+//                System.out.println("git");
+//                return dto;
+//            } else {
+//                return null;
+//            }
         } else {
             return null;
-
         }
     }
 }

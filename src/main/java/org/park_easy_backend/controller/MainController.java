@@ -14,10 +14,9 @@ import java.util.Iterator;
 @Controller
 public class MainController {
     @GetMapping("/main")
-    public String mainP(Model model){
+    public String mainP(Model model) {
 
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -26,7 +25,7 @@ public class MainController {
         String role = auth.getAuthority();
 
         model.addAttribute("id", id);
-        model.addAttribute("role",role );
+        model.addAttribute("role", role);
 
         return "main";
     }
