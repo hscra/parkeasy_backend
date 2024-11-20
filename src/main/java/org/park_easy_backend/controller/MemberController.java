@@ -35,7 +35,7 @@ public class MemberController {
         MemberDTO loginResult = memberService.login(memberDTO);
         if (loginResult != null) {
             // login success
-            session.setAttribute("loginEmail", loginResult.getMemberEmail());
+            session.setAttribute("loginEmail", loginResult.getEmail());
             return ResponseEntity.ok(loginResult);
         } else {
             // login fail

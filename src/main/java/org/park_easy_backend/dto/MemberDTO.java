@@ -10,16 +10,16 @@ import org.park_easy_backend.entity.MemberEntity;
 @ToString
 public class MemberDTO {
     private Long id;
-    private String memberEmail;
-    private String memberPassword;
-    private String memberName;
+    private String email;
+    private String password;
+    private String name;
 
     public static MemberDTO toMemberDTO(MemberEntity memberEntity) {
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(memberEntity.getId());
-        memberDTO.setMemberEmail(memberEntity.getMemberEmail());
-        memberDTO.setMemberPassword(memberEntity.getMemberPassword());
-        memberDTO.setMemberName(memberEntity.getMemberName());
+        memberDTO.setEmail(memberEntity.getEmail());
+        memberDTO.setPassword(memberEntity.getPassword());
+        memberDTO.setName(memberEntity.getName());
         return memberDTO;
     }
 

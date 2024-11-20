@@ -16,18 +16,14 @@ public class MemberService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public void save(MemberDTO memberDTO){
-        memberDTO.setMemberPassword(encoder.encode(memberDTO.getMemberPassword()));
+        memberDTO.setPassword(encoder.encode(memberDTO.getPassword()));
         MemberEntity memberEntity = MemberEntity.toMemberEntity(memberDTO);
         memberRepository.save(memberEntity);
     }
 
     public MemberDTO login(MemberDTO memberDTO){
-        /*
-            1. check email form DB query
-            2. check the password match between input and DB
-
-         */
-        Optional<MemberEntity> byMemberEmail = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
+        Optional<MemberEntity> byMemberEmail = memberRepository.findByEmail(memberDTO.getEmail());
+//        Optional<MemberEntity> byMemberName = memberRepository.findByMemberEmail(memberDTO.getEmail());
         if (byMemberEmail.isPresent()) {
             MemberEntity memberEntity = byMemberEmail.get();
             System.out.println(memberEntity);

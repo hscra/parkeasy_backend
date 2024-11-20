@@ -15,19 +15,19 @@ public class MemberEntity {
     private Long id;
 
     @Column(unique = true)
-    private String memberEmail;
+    private String email;
 
     @Column
-    private String memberPassword;
+    private String password;
 
     @Column
-    private String memberName;
+    private String name;
 
     public static MemberEntity toMemberEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
-        memberEntity.setMemberEmail(memberDTO.getMemberEmail());
-        memberEntity.setMemberPassword(memberDTO.getMemberPassword());
-        memberEntity.setMemberName(memberDTO.getMemberName());
+        memberEntity.setEmail(memberDTO.getEmail());
+        memberEntity.setPassword(memberDTO.getPassword());
+        memberEntity.setName(memberDTO.getName());
         return memberEntity;
     }
 }
