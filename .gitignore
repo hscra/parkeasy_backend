@@ -33,4 +33,4 @@ build/
 
 ### Other files ###
 src/main/resources/config
-src/main/resources/application.properties
+src/main/resources/env.properties

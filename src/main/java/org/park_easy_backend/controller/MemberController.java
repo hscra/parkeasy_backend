@@ -19,8 +19,13 @@ public class MemberController {
     public String saveForm() { return "save"; }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> save(@ModelAttribute MemberDTO memberDTO) {
-        memberService.save(memberDTO);
+    public ResponseEntity<?> save(@ModelAttribute MemberDTO memberDTO) {
+        try {
+            memberService.save(memberDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error occurred within login procedure");
+        }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
