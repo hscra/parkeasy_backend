@@ -30,17 +30,20 @@ public class MemberController {
         return "login";
     }
 
-    @PostMapping(path = "/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
         MemberDTO loginResult = memberService.login(memberDTO);
+
         if (loginResult != null) {
             // login success
-            session.setAttribute("loginEmail", loginResult.getEmail());
+            session.setAttribute("memberEmail", loginResult.getEmail());
+            session.setAttribute("memberName", loginResult.getName());
+
             return ResponseEntity.ok(loginResult);
-        } else {
-            // login fail
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error occurred within login procedure");
         }
+
+        // login fail
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error occurred within login procedure");
     }
 }

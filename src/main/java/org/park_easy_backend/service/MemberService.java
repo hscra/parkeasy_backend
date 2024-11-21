@@ -23,21 +23,14 @@ public class MemberService {
 
     public MemberDTO login(MemberDTO memberDTO){
         Optional<MemberEntity> byMemberEmail = memberRepository.findByEmail(memberDTO.getEmail());
-//        Optional<MemberEntity> byMemberName = memberRepository.findByMemberEmail(memberDTO.getEmail());
+
         if (byMemberEmail.isPresent()) {
             MemberEntity memberEntity = byMemberEmail.get();
-            System.out.println(memberEntity);
-            return MemberDTO.toMemberDTO(memberEntity);
-//            if (memberEntity.getMemberPassword().equals(memberDTO.getMemberPassword())) {
-//                // entity -> dto
-//                MemberDTO dto = MemberDTO.toMemberDTO(memberEntity);
-//                System.out.println("git");
-//                return dto;
-//            } else {
-//                return null;
-//            }
-        } else {
-            return null;
+            if (encoder.matches(memberDTO.getPassword(), memberEntity.getPassword())) {
+                return MemberDTO.toMemberDTO(memberEntity);
+            }
         }
+
+        return null;
     }
 }

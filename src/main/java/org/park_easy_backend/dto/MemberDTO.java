@@ -2,6 +2,7 @@ package org.park_easy_backend.dto;
 
 import lombok.*;
 import org.park_easy_backend.entity.MemberEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Setter
@@ -10,8 +11,12 @@ import org.park_easy_backend.entity.MemberEntity;
 @ToString
 public class MemberDTO {
     private Long id;
+
     private String email;
+
+    @JsonIgnore
     private String password;
+
     private String name;
 
     public static MemberDTO toMemberDTO(MemberEntity memberEntity) {
@@ -21,9 +26,5 @@ public class MemberDTO {
         memberDTO.setPassword(memberEntity.getPassword());
         memberDTO.setName(memberEntity.getName());
         return memberDTO;
-    }
-
-    public static Long toId(MemberEntity memberEntity) {
-        return memberEntity.getId();
     }
 }
