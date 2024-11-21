@@ -19,7 +19,6 @@ public class MemberController {
     public String saveForm() { return "save"; }
 
     @PostMapping("/save")
-    @ResponseBody
     public ResponseEntity<Void> save(@ModelAttribute MemberDTO memberDTO) {
         memberService.save(memberDTO);
         return ResponseEntity.status(HttpStatus.OK).build();
