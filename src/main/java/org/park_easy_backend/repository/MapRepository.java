@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface MapRepository extends JpaRepository<LocationEntity, Long> {
-    Optional<LocationEntity> findByName(String name);
+    Optional<LocationEntity> findLocationEntityByCity(String name);
 }
