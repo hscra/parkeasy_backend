@@ -36,7 +36,7 @@ public class MapController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<?> getAllLocations(@ModelAttribute LocationDTO locationDTO, HttpSession session){
+    public ResponseEntity<?> getAllLocations(){
         try{
             List<LocationDTO> mapResult = mapService.findAll();
             return ResponseEntity.ok(mapResult);
@@ -45,6 +45,4 @@ public class MapController {
                     .body("Error within map retrieval");
         }
     }
-
-
 }

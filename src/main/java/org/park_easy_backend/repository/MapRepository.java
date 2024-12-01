@@ -8,5 +8,4 @@ import java.util.Optional;
 
 public interface MapRepository extends JpaRepository<LocationEntity, Long> {
     Optional<LocationEntity> findLocationEntityByCity(String name);
-    List<LocationEntity> findAll();
 }
