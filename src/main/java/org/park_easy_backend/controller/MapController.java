@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/location")
 @RequiredArgsConstructor
@@ -33,19 +36,14 @@ public class MapController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<?> map(@ModelAttribute LocationDTO locationDTO, HttpSession session){
-        LocationDTO mapResult = mapService.find(locationDTO);
-
-        if(mapResult != null){
-            session.setAttribute("city", mapResult.getCity());
-            session.setAttribute("lat", mapResult.getLat());
-            session.setAttribute("lng", mapResult.getLng());
-
+    public ResponseEntity<?> getAllLocations(@ModelAttribute LocationDTO locationDTO, HttpSession session){
+        try{
+            List<LocationDTO> mapResult = mapService.findAll();
             return ResponseEntity.ok(mapResult);
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error within map retrieval");
         }
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error within map procedure");
     }
 
 

@@ -7,6 +7,8 @@ import org.park_easy_backend.repository.MapRepository;
 import org.springframework.stereotype.Service;
 
 import javax.xml.stream.Location;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,8 +21,13 @@ public class MapService {
         mapRepository.save(locationEntity);
     }
 
-    public LocationDTO find(LocationDTO locationDTO){
-        Optional<LocationEntity> byLocationName = mapRepository.findLocationEntityByCity(locationDTO.getCity());
-        return byLocationName.map(LocationDTO::toLocationDTO).orElse(null);
+    public List<LocationDTO> findAll(){
+        List<LocationEntity> locationEntities = mapRepository.findAll();
+        List<LocationDTO> locationDTOs = new ArrayList<>();
+
+        for(LocationEntity entity : locationEntities){
+            locationDTOs.add(LocationDTO.toLocationDTO(entity));
+        }
+        return locationDTOs;
     }
 }
