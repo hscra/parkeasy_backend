@@ -8,7 +8,7 @@ import org.park_easy_backend.dto.LocationDTO;
 @Entity
 @Setter
 @Getter
-@Table(name = "Locations")
+@Table(name = "locations")
 public class LocationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

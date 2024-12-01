@@ -1,6 +1,5 @@
 package org.park_easy_backend.controller;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.park_easy_backend.dto.LocationDTO;
 import org.park_easy_backend.service.MapService;
