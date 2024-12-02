@@ -1,6 +1,5 @@
 package org.park_easy_backend.controller;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.park_easy_backend.dto.LocationDTO;
 import org.park_easy_backend.service.MapService;
@@ -35,6 +34,7 @@ public class MapController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+
     @GetMapping("/getAllLocations")
     public ResponseEntity<?> getAllLocations(){
         try{
@@ -45,7 +45,7 @@ public class MapController {
                     .body("Error within map retrieval");
         }
     }
-
+  
     @GetMapping("/get")
     public ResponseEntity<?> getSingleLocation(@ModelAttribute LocationDTO locationDTO, HttpSession session){
         LocationDTO mapResult = mapService.findByCity(locationDTO);
@@ -58,6 +58,4 @@ public class MapController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Error within map procedure");
     }
-
-
 }
