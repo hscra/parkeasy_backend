@@ -35,8 +35,8 @@ public class MapController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/get")
-    public ResponseEntity<?> getAllLocations(@ModelAttribute LocationDTO locationDTO, HttpSession session){
+    @GetMapping("/getAllLocations")
+    public ResponseEntity<?> getAllLocations(){
         try{
             List<LocationDTO> mapResult = mapService.findAll();
             return ResponseEntity.ok(mapResult);
@@ -44,6 +44,19 @@ public class MapController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error within map retrieval");
         }
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<?> getSingleLocation(@ModelAttribute LocationDTO locationDTO, HttpSession session){
+        LocationDTO mapResult = mapService.findByCity(locationDTO);
+        if(mapResult != null){
+            session.setAttribute("city", mapResult.getCity());
+            session.setAttribute("lat", mapResult.getLat());
+            session.setAttribute("lng", mapResult.getLng());
+            return ResponseEntity.ok(mapResult);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error within map procedure");
     }
 
 

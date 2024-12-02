@@ -30,4 +30,9 @@ public class MapService {
         }
         return locationDTOs;
     }
+
+    public LocationDTO findByCity(LocationDTO locationDTO){
+        Optional<LocationEntity> byLocationName = mapRepository.findLocationEntityByCity(locationDTO.getCity());
+        return byLocationName.map(LocationDTO::toLocationDTO).orElse(null);
+    }
 }
