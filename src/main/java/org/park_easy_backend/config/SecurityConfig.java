@@ -14,7 +14,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/member/login", "/member/save").permitAll()
+                        .requestMatchers(
+                                "/",
+                                "/member/**",
+                                "/location/**"
+                        ).permitAll()
                         .requestMatchers("/main").authenticated()
                         .anyRequest().authenticated()
                 );
