@@ -27,7 +27,7 @@ public class MemberService {
         if (byMemberEmail.isPresent()) {
             MemberEntity memberEntity = byMemberEmail.get();
             if (encoder.matches(memberDTO.getPassword(), memberEntity.getPassword())) {
-                return MemberDTO.toMemberDTO(memberEntity);
+                return MemberDTO.toMemberDTORes(memberEntity);
             }
         }
 

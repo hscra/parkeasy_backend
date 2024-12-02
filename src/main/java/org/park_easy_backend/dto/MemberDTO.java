@@ -14,7 +14,7 @@ public class MemberDTO {
 
     private String email;
 
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
 
     private String name;
@@ -24,6 +24,14 @@ public class MemberDTO {
         memberDTO.setId(memberEntity.getId());
         memberDTO.setEmail(memberEntity.getEmail());
         memberDTO.setPassword(memberEntity.getPassword());
+        memberDTO.setName(memberEntity.getName());
+        return memberDTO;
+    }
+
+    public static MemberDTO toMemberDTORes(MemberEntity memberEntity) {
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setId(memberEntity.getId());
+        memberDTO.setEmail(memberEntity.getEmail());
         memberDTO.setName(memberEntity.getName());
         return memberDTO;
     }

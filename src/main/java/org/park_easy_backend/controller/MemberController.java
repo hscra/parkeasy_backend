@@ -35,7 +35,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody MemberDTO memberDTO, HttpSession session) {
         MemberDTO loginResult = memberService.login(memberDTO);
 
         if (loginResult != null) {
