@@ -34,7 +34,8 @@ public class MapController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/get")
+
+    @GetMapping("/getAllLocations")
     public ResponseEntity<?> getAllLocations(){
         try{
             List<LocationDTO> mapResult = mapService.findAll();
@@ -43,5 +44,15 @@ public class MapController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error within map retrieval");
         }
+    }
+  
+    @GetMapping("/get")
+    public ResponseEntity<?> getSingleLocation(@ModelAttribute LocationDTO locationDTO){
+        LocationDTO mapResult = mapService.findByCity(locationDTO);
+        if(mapResult != null){
+            return ResponseEntity.ok(mapResult);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error within map procedure");
     }
 }
