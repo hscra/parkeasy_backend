@@ -32,7 +32,7 @@ public class MapService {
     }
 
     public LocationDTO findByCity(LocationDTO locationDTO){
-        Optional<LocationEntity> byLocationName = mapRepository.findLocationEntityByCity(locationDTO.getCity());
+        Optional<LocationEntity> byLocationName = mapRepository.findByCity(locationDTO.getCity());
         return byLocationName.map(LocationDTO::toLocationDTO).orElse(null);
     }
 }

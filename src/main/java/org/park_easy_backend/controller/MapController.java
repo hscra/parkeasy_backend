@@ -47,12 +47,9 @@ public class MapController {
     }
   
     @GetMapping("/get")
-    public ResponseEntity<?> getSingleLocation(@ModelAttribute LocationDTO locationDTO, HttpSession session){
+    public ResponseEntity<?> getSingleLocation(@ModelAttribute LocationDTO locationDTO){
         LocationDTO mapResult = mapService.findByCity(locationDTO);
         if(mapResult != null){
-            session.setAttribute("city", mapResult.getCity());
-            session.setAttribute("lat", mapResult.getLat());
-            session.setAttribute("lng", mapResult.getLng());
             return ResponseEntity.ok(mapResult);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
