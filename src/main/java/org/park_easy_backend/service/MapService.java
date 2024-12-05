@@ -3,6 +3,7 @@ package org.park_easy_backend.service;
 import lombok.RequiredArgsConstructor;
 import org.park_easy_backend.dto.LocationDTO;
 import org.park_easy_backend.entity.LocationEntity;
+import org.park_easy_backend.entity.ParkingSpaceEntity;
 import org.park_easy_backend.repository.MapRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,19 @@ public class MapService {
 
     public void save(LocationDTO locationDTO){
         LocationEntity locationEntity = LocationEntity.toLocationEntity(locationDTO);
+
+        if(locationDTO.getParkingSpaces() != null){
+            List<ParkingSpaceEntity> parkingSpaces = new ArrayList<>();
+
+            for(int i = 0; i < locationDTO.getParkingSpaces().size(); i++){
+                ParkingSpaceEntity space = new ParkingSpaceEntity();
+                space.setLocation(locationEntity);
+                space.setSpaceNumber(i + 1);
+                space.setAvailability(locationDTO.getParkingSpaces().get(i));
+                parkingSpaces.add(space);
+            }
+            locationEntity.setParkingSpaces(parkingSpaces);
+        }
         mapRepository.save(locationEntity);
     }
 
