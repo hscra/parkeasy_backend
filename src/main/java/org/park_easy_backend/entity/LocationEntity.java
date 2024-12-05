@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.park_easy_backend.dto.LocationDTO;
+
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -21,6 +24,9 @@ public class LocationEntity {
 
     @Column
     private float lng;
+
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ParkingSpaceEntity> parkingSpaces;
 
     public static LocationEntity toLocationEntity(LocationDTO locationDTO) {
         LocationEntity locationEntity = new LocationEntity();
