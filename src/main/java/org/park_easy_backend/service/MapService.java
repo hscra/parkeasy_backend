@@ -17,17 +17,16 @@ import java.util.Optional;
 public class MapService {
     private final MapRepository mapRepository;
 
-    public void save(LocationDTO locationDTO){
+    public void save(LocationDTO locationDTO) {
         LocationEntity locationEntity = LocationEntity.toLocationEntity(locationDTO);
 
-        if(locationDTO.getParkingSpaces() != null){
+        if (locationDTO.getParkingSpaces() != null) {
             List<ParkingSpaceEntity> parkingSpaces = new ArrayList<>();
 
-            for(int i = 0; i < locationDTO.getParkingSpaces().size(); i++){
+            for (int i = 0; i < locationDTO.getParkingSpaces().size(); i++) {
                 ParkingSpaceEntity space = new ParkingSpaceEntity();
-                space.setLocation(locationEntity);
-                space.setSpaceNumber(i + 1);
-                space.setAvailability(locationDTO.getParkingSpaces().get(i));
+                space.setAvailability(locationDTO.getParkingSpaces().get(i).getAvailability());
+                space.setCityId(locationEntity); // Set the association
                 parkingSpaces.add(space);
             }
             locationEntity.setParkingSpaces(parkingSpaces);
@@ -45,8 +44,8 @@ public class MapService {
         return locationDTOs;
     }
 
-    public LocationDTO findByCity(LocationDTO locationDTO){
-        Optional<LocationEntity> byLocationName = mapRepository.findByCity(locationDTO.getCity());
-        return byLocationName.map(LocationDTO::toLocationDTO).orElse(null);
+    public LocationDTO findCityEntityById(Long id){
+        Optional<LocationEntity> byLocationId = mapRepository.findById(id);
+        return byLocationId.map(LocationDTO::toLocationDTO).orElse(null);
     }
 }

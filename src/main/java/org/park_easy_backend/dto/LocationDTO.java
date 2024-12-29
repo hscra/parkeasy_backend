@@ -17,7 +17,7 @@ public class LocationDTO {
     private String city;
     private float Lat;
     private float Lng;
-    private List<Boolean> parkingSpaces;
+    private List<ParkingSpaceEntity> parkingSpaces;
 
     public static LocationDTO toLocationDTO(LocationEntity locationEntity) {
         LocationDTO locationDTO = new LocationDTO();
@@ -26,9 +26,7 @@ public class LocationDTO {
         locationDTO.setLat(locationEntity.getLat());
         locationDTO.setLng(locationEntity.getLng());
         if(locationEntity.getParkingSpaces() != null){
-            locationDTO.setParkingSpaces(locationEntity.getParkingSpaces().stream()
-                    .map(ParkingSpaceEntity::getAvailability)
-                    .collect(Collectors.toList()));
+            locationDTO.setParkingSpaces(locationEntity.getParkingSpaces());
         }
         return locationDTO;
     }

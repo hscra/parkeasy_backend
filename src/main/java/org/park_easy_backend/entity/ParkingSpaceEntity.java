@@ -14,11 +14,8 @@ public class ParkingSpaceEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "city_id", nullable = false)
-    private LocationEntity location;
-
-    @Column(name = "space_number")
-    private Integer spaceNumber;
+    @JoinColumn(name = "cityId", nullable = false)
+    private LocationEntity cityId;
 
     @Column(name = "availability")
     private Boolean availability;
