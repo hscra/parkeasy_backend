@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.park_easy_backend.dto.LocationDTO;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter

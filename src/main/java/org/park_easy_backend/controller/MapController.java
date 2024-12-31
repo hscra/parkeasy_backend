@@ -2,14 +2,13 @@ package org.park_easy_backend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.park_easy_backend.dto.LocationDTO;
+import org.park_easy_backend.dto.ParkingSpaceDTO;
+import org.park_easy_backend.entity.ParkingSpaceEntity;
 import org.park_easy_backend.service.MapService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +46,12 @@ public class MapController {
     }
   
     @GetMapping("/get")
-    public ResponseEntity<?> getSingleLocation(@ModelAttribute LocationDTO locationDTO){
-        LocationDTO mapResult = mapService.findByCity(locationDTO);
+    public ResponseEntity<?> getSingleLocation(@RequestParam Long Id){
+        LocationDTO mapResult = mapService.findCityEntityById(Id);
         if(mapResult != null){
             return ResponseEntity.ok(mapResult);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error within map procedure");
+                .body("Error within map retrieval");
     }
 }

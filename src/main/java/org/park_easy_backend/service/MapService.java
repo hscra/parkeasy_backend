@@ -3,6 +3,7 @@ package org.park_easy_backend.service;
 import lombok.RequiredArgsConstructor;
 import org.park_easy_backend.dto.LocationDTO;
 import org.park_easy_backend.entity.LocationEntity;
+import org.park_easy_backend.entity.ParkingSpaceEntity;
 import org.park_easy_backend.repository.MapRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class MapService {
     private final MapRepository mapRepository;
 
-    public void save(LocationDTO locationDTO){
+    public void save(LocationDTO locationDTO) {
         LocationEntity locationEntity = LocationEntity.toLocationEntity(locationDTO);
         mapRepository.save(locationEntity);
     }
@@ -31,8 +32,8 @@ public class MapService {
         return locationDTOs;
     }
 
-    public LocationDTO findByCity(LocationDTO locationDTO){
-        Optional<LocationEntity> byLocationName = mapRepository.findByCity(locationDTO.getCity());
-        return byLocationName.map(LocationDTO::toLocationDTO).orElse(null);
+    public LocationDTO findCityEntityById(Long id){
+        Optional<LocationEntity> byLocationId = mapRepository.findById(id);
+        return byLocationId.map(LocationDTO::toLocationDTO).orElse(null);
     }
 }

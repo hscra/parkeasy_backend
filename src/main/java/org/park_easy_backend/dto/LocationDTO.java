@@ -2,6 +2,10 @@ package org.park_easy_backend.dto;
 
 import lombok.*;
 import org.park_easy_backend.entity.LocationEntity;
+import org.park_easy_backend.entity.ParkingSpaceEntity;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
