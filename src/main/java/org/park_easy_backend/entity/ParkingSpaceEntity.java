@@ -12,11 +12,10 @@ import org.park_easy_backend.dto.ParkingSpaceDTO;
 public class ParkingSpaceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
 
-    @ManyToOne
-    @JoinColumn(name = "cityId", nullable = false)
-    private LocationEntity cityId;
+    @JoinColumn(name = "city_Id", nullable = false)
+    private Long city_Id;
 
     @Column(name = "availability")
     private Boolean availability;
@@ -24,7 +23,7 @@ public class ParkingSpaceEntity {
     public static ParkingSpaceEntity toParkingSpaceEntity(ParkingSpaceDTO parkingSpaceDTO){
         ParkingSpaceEntity parkingSpaceEntity = new ParkingSpaceEntity();
         parkingSpaceEntity.setId(parkingSpaceDTO.getId());
-        parkingSpaceEntity.setCityId(parkingSpaceDTO.getCityId());
+        parkingSpaceEntity.setCity_Id(parkingSpaceDTO.getCity_Id());
         parkingSpaceEntity.setAvailability(parkingSpaceDTO.getAvailability());
 
         return parkingSpaceEntity;

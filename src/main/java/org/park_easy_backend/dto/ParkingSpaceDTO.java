@@ -12,15 +12,15 @@ import org.park_easy_backend.entity.ParkingSpaceEntity;
 @NoArgsConstructor
 @ToString
 public class ParkingSpaceDTO {
-    private Long id;
-    private LocationEntity cityId;
+    private Long Id;
+    private Long city_Id;
     private Boolean availability;
 
     public static ParkingSpaceDTO toParkingSpaceDTO(ParkingSpaceEntity parkingSpaceEntity) {
         ParkingSpaceDTO parkingSpaceDTO = new ParkingSpaceDTO();
-        parkingSpaceEntity.setId(parkingSpaceDTO.getId());
-        parkingSpaceEntity.setCityId(parkingSpaceDTO.getCityId());
-        parkingSpaceEntity.setAvailability(parkingSpaceDTO.getAvailability());
+        parkingSpaceDTO.setId(parkingSpaceEntity.getId());
+        parkingSpaceDTO.setCity_Id(parkingSpaceEntity.getCity_Id());
+        parkingSpaceDTO.setAvailability(parkingSpaceEntity.getAvailability());
         return parkingSpaceDTO;
     }
 }

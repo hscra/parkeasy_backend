@@ -31,8 +31,8 @@ public class ParkingSpaceService {
         return parkingSpaceDTOs;
     }
 
-    public ParkingSpaceDTO findParkingSpaceEntityById(Long id){
-        Optional<ParkingSpaceEntity> byParkingSpaceId = parkingSpaceRepository.findById(id);
+    public ParkingSpaceDTO findParkingSpaceEntityById(Long Id){
+        Optional<ParkingSpaceEntity> byParkingSpaceId = parkingSpaceRepository.findById(Id);
         return byParkingSpaceId.map(ParkingSpaceDTO::toParkingSpaceDTO).orElse(null);
     }
 
@@ -41,7 +41,7 @@ public class ParkingSpaceService {
         List<ParkingSpaceDTO> parkingSpaceDTOS = new ArrayList<>();
 
         for(ParkingSpaceEntity entity : parkingSpaceEntities){
-            if(entity.getCityId().equals(Id)) {
+            if(entity.getCity_Id().equals(Id)) {
                 parkingSpaceDTOS.add(ParkingSpaceDTO.toParkingSpaceDTO(entity));
             }
         }
