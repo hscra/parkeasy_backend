@@ -19,18 +19,6 @@ public class MapService {
 
     public void save(LocationDTO locationDTO) {
         LocationEntity locationEntity = LocationEntity.toLocationEntity(locationDTO);
-
-        if (locationDTO.getParkingSpaces() != null) {
-            List<ParkingSpaceEntity> parkingSpaces = new ArrayList<>();
-
-            for (int i = 0; i < locationDTO.getParkingSpaces().size(); i++) {
-                ParkingSpaceEntity space = new ParkingSpaceEntity();
-                space.setAvailability(locationDTO.getParkingSpaces().get(i).getAvailability());
-                space.setCityId(locationEntity); // Set the association
-                parkingSpaces.add(space);
-            }
-            locationEntity.setParkingSpaces(parkingSpaces);
-        }
         mapRepository.save(locationEntity);
     }
 

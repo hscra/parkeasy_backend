@@ -2,6 +2,7 @@ package org.park_easy_backend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.park_easy_backend.dto.LocationDTO;
+import org.park_easy_backend.dto.ParkingSpaceDTO;
 import org.park_easy_backend.entity.ParkingSpaceEntity;
 import org.park_easy_backend.service.MapService;
 import org.springframework.http.HttpStatus;
@@ -51,19 +52,6 @@ public class MapController {
             return ResponseEntity.ok(mapResult);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error within map procedure");
-    }
-
-    @GetMapping("/getAllCitySpaces")
-    public ResponseEntity<?> getAllCitySpaces(@RequestParam Long Id){
-        LocationDTO result = mapService.findCityEntityById(Id);
-        if(result != null){
-            List<ParkingSpaceEntity> parkingSpaces = result.getParkingSpaces();
-            if(parkingSpaces != null) {
-                return ResponseEntity.ok(result);
-            }
-        }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error within map procedure");
+                .body("Error within map retrieval");
     }
 }

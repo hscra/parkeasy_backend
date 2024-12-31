@@ -16,8 +16,8 @@ public class ParkingSpaceDTO {
     private LocationEntity cityId;
     private Boolean availability;
 
-    public static ParkingSpaceDTO toParkingSpaceEntity(ParkingSpaceDTO parkingSpaceDTO) {
-        ParkingSpaceEntity parkingSpaceEntity = new ParkingSpaceEntity();
+    public static ParkingSpaceDTO toParkingSpaceDTO(ParkingSpaceEntity parkingSpaceEntity) {
+        ParkingSpaceDTO parkingSpaceDTO = new ParkingSpaceDTO();
         parkingSpaceEntity.setId(parkingSpaceDTO.getId());
         parkingSpaceEntity.setCityId(parkingSpaceDTO.getCityId());
         parkingSpaceEntity.setAvailability(parkingSpaceDTO.getAvailability());

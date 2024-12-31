@@ -25,9 +25,6 @@ public class LocationEntity {
     @Column
     private float lng;
 
-    @OneToMany(mappedBy = "cityId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ParkingSpaceEntity> parkingSpaces;
-
     public static LocationEntity toLocationEntity(LocationDTO locationDTO) {
         LocationEntity locationEntity = new LocationEntity();
         locationEntity.setCity(locationDTO.getCity());
