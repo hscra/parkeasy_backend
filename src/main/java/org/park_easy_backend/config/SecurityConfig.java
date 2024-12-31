@@ -19,7 +19,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/",
                                 "/member/**",
-                                "/location/**"
+                                "/location/**",
+                                "/parking/**"
                         ).permitAll()
                         .requestMatchers("/main").authenticated()
                         .anyRequest().authenticated()
