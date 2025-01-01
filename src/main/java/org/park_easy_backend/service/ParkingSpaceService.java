@@ -48,4 +48,13 @@ public class ParkingSpaceService {
 
         return parkingSpaceDTOS;
     }
+
+    public void changeAvailability(Long Id, boolean availability){
+        Optional<ParkingSpaceEntity> optionalEntity = parkingSpaceRepository.findById(Id);
+
+        if(optionalEntity.isPresent()){
+            ParkingSpaceEntity parkingSpaceEntity = optionalEntity.get();
+            parkingSpaceEntity.setAvailability(availability);
+        }
+    }
 }
