@@ -23,10 +23,10 @@ public class ReservationEntity {
     @JoinColumn(name = "userId", nullable = false)
     private Long userId;
 
-    @Column(name = "from")
+    @Column(name = "start_time")
     private LocalDateTime from;
 
-    @Column(name = "to")
+    @Column(name = "end_time")
     private LocalDateTime to;
 
     @JoinColumn(name = "parkingSpaceId", nullable = false)
