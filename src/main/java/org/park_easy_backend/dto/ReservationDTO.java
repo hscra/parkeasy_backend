@@ -13,16 +13,12 @@ import java.time.LocalDateTime;
 public class ReservationDTO {
     private Long reservationId;
     private Long userId;
-    private LocalDateTime from;
-    private LocalDateTime to;
     private Long parkingSpaceId;
 
     public static ReservationDTO toReservationDTO(ReservationEntity entity){
         ReservationDTO DTO = new ReservationDTO();
         DTO.setReservationId(entity.getReservationId());
         DTO.setUserId(entity.getUserId());
-        DTO.setFrom(entity.getFrom());
-        DTO.setTo(entity.getTo());
         DTO.setParkingSpaceId(entity.getParkingSpaceId());
 
         return DTO;

@@ -23,12 +23,6 @@ public class ReservationEntity {
     @JoinColumn(name = "userId", nullable = false)
     private Long userId;
 
-    @Column(name = "start_time")
-    private LocalDateTime from;
-
-    @Column(name = "end_time")
-    private LocalDateTime to;
-
     @JoinColumn(name = "parkingSpaceId", nullable = false)
     private Long parkingSpaceId;
 
@@ -36,8 +30,6 @@ public class ReservationEntity {
         ReservationEntity entity = new ReservationEntity();
         entity.setReservationId(DTO.getReservationId());
         entity.setUserId(DTO.getUserId());
-        entity.setFrom(DTO.getFrom());
-        entity.setTo(DTO.getTo());
         entity.setParkingSpaceId(DTO.getParkingSpaceId());
 
         return entity;

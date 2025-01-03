@@ -70,24 +70,14 @@ public class ReservationService {
     public void makeReservation(ReservationDTO DTO){
 
         Long spaceId = DTO.getReservationId();
-        LocalDateTime start = DTO.getFrom();
-        LocalDateTime end = DTO.getTo();
 
-        Optional<List<ReservationEntity>> optionalReservationEntities = reservationRepository.findByParkingSpaceId(spaceId);
-
-        if(optionalReservationEntities.isPresent()){
-            List<ReservationEntity> reservations = optionalReservationEntities.get();
-
-            for(ReservationEntity entity : reservations){
-                if(isTimeOverlap(start, end, entity.getFrom(), entity.getTo())){
-                    throw new IllegalArgumentException("Parking is unavailable during this timeframe");
-                }
-            }
+        if(!parkingSpaceService.findParkingSpaceEntityById(spaceId).getAvailability()){
+            throw new IllegalArgumentException();
+        }else {
+            ReservationEntity reservationEntity = ReservationEntity.toReservationEntity(DTO);
+            reservationRepository.save(reservationEntity);
+            parkingSpaceService.changeAvailability(spaceId, false);
         }
-
-        ReservationEntity reservationEntity = ReservationEntity.toReservationEntity(DTO);
-        reservationRepository.save(reservationEntity);
-        parkingSpaceService.changeAvailability(spaceId, false);
 
     }
 
