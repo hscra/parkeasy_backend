@@ -69,7 +69,7 @@ public class ReservationService {
 
     public void makeReservation(ReservationDTO DTO){
 
-        Long spaceId = DTO.getReservationId();
+        Long spaceId = DTO.getParkingSpaceId();
 
         if(!parkingSpaceService.findParkingSpaceEntityById(spaceId).getAvailability()){
             throw new IllegalArgumentException();
@@ -81,16 +81,12 @@ public class ReservationService {
 
     }
 
-    private boolean isTimeOverlap(LocalDateTime newStart, LocalDateTime newEnd, LocalDateTime existingStart, LocalDateTime existingEnd){
-        return newStart.isBefore(existingEnd) && newEnd.isAfter(existingStart);
-    }
-
     public void removeReservation(Long Id){
         Optional<ReservationEntity> entity = reservationRepository.findById(Id);
 
         if(entity.isPresent()){
             ReservationEntity reservationEntity = entity.get();
-            parkingSpaceService.changeAvailability(reservationEntity.getReservationId(), true);
+            parkingSpaceService.changeAvailability(reservationEntity.getParkingSpaceId(), true);
             reservationRepository.delete(reservationEntity);
         }
     }
