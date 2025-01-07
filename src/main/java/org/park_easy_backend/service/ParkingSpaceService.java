@@ -1,5 +1,6 @@
 package org.park_easy_backend.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.park_easy_backend.dto.ParkingSpaceDTO;
 import org.park_easy_backend.entity.ParkingSpaceEntity;
@@ -47,5 +48,16 @@ public class ParkingSpaceService {
         }
 
         return parkingSpaceDTOS;
+    }
+
+    @Transactional
+    public void changeAvailability(Long Id, boolean availability){
+        Optional<ParkingSpaceEntity> optionalEntity = parkingSpaceRepository.findById(Id);
+
+        if(optionalEntity.isPresent()){
+            ParkingSpaceEntity parkingSpaceEntity = optionalEntity.get();
+            parkingSpaceEntity.setAvailability(availability);
+            parkingSpaceRepository.save(parkingSpaceEntity);
+        }
     }
 }

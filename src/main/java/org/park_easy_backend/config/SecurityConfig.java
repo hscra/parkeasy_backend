@@ -20,7 +20,8 @@ public class SecurityConfig {
                                 "/",
                                 "/member/**",
                                 "/location/**",
-                                "/parking/**"
+                                "/parking/**",
+                                "/reservation/**"
                         ).permitAll()
                         .requestMatchers("/main").authenticated()
                         .anyRequest().authenticated()
