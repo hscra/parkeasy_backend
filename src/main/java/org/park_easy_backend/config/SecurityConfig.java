@@ -28,15 +28,15 @@ public class SecurityConfig {
                 );
         http
                 .formLogin((auth) -> auth
-                        .usernameParameter("email")
                         .loginPage("/member/login")
-                        .loginProcessingUrl("/main")
-                        .defaultSuccessUrl("/main", true)
+                        .usernameParameter("email")
+                        .loginProcessingUrl("/register")
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 );
         http
                 .logout((auth) -> auth
-                        .logoutSuccessUrl("/member/login?logut")
+                        .logoutSuccessUrl("/member/login")
                         .permitAll()
                 );
         http
