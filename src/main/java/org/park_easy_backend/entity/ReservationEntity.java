@@ -20,10 +20,10 @@ public class ReservationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reservationId;
 
-    @Column(name = "userId", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "parkingSpaceId", nullable = false)
+    @Column(name = "parking_space_id", nullable = false)
     private Long parkingSpaceId;
 
     public static ReservationEntity toReservationEntity(ReservationDTO DTO){
@@ -33,6 +33,5 @@ public class ReservationEntity {
         entity.setParkingSpaceId(DTO.getParkingSpaceId());
 
         return entity;
-
     }
 }

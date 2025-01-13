@@ -1,10 +1,7 @@
 package org.park_easy_backend.controller;
 
-import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
-import org.park_easy_backend.dto.ParkingSpaceDTO;
 import org.park_easy_backend.dto.ReservationDTO;
-import org.park_easy_backend.entity.ReservationEntity;
 import org.park_easy_backend.service.ReservationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,70 +16,68 @@ import java.util.List;
 public class ReservationController {
     private final ReservationService reservationService;
     @PostMapping("/create")
-    public ResponseEntity<?> save(@ModelAttribute ReservationDTO reservationDTO){
-        try{
+    public ResponseEntity<?> save(@RequestBody ReservationDTO reservationDTO) {
+        try {
             reservationService.makeReservation(reservationDTO);
-        }catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("Parking space is occupied during that timeframe");
-        }catch(Exception ee){
+        } catch(Exception ee) {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error during reservation creation");
         }
-
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getAllReservations(){
-        try{
+    public ResponseEntity<?> getAllReservations() {
+        try {
             List<ReservationDTO> result = reservationService.findAll();
             return ResponseEntity.ok(result);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("getAll error");
         }
     }
 
     @GetMapping("/get")
-    public ResponseEntity<?> getSingleReservation(@RequestParam Long Id){
+    public ResponseEntity<?> getSingleReservation(@RequestParam Long Id) {
         ReservationDTO result = reservationService.findReservationEntityById(Id);
-        if(result != null){
+        if (result != null) {
             return ResponseEntity.ok(result);
         }
-
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Error while getting single reservation by id");
 
     }
 
     @GetMapping("/getAllInCity")
-    public ResponseEntity<?> getAllReservationsInCity(@RequestParam Long Id){
-        try{
+    public ResponseEntity<?> getAllReservationsInCity(@RequestParam Long Id) {
+        try {
             List<ReservationDTO> result = reservationService.findAllReservationsByCityId(Id);
             return ResponseEntity.ok(result);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("getAllInCity error");
         }
     }
 
     @GetMapping("/getUserReservations")
-    public ResponseEntity<?> getAllUserReservations(@RequestParam Long Id){
-        try{
+    public ResponseEntity<?> getAllUserReservations(@RequestParam Long Id) {
+        try {
             List<ReservationDTO> result = reservationService.findAllReservationsByUserId(Id);
             return ResponseEntity.ok(result);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("get all user reservations error");
         }
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> removeReservationById(@RequestParam Long Id){
-        try{
+    public ResponseEntity<?> removeReservationById(@RequestParam Long Id) {
+        try {
             reservationService.removeReservation(Id);
-        }catch (Exception e){
+        } catch (Exception e) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error removing reservation");
         }
