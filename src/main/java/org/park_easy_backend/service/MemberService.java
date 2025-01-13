@@ -7,6 +7,7 @@ import org.park_easy_backend.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Service
@@ -15,7 +16,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public void save(MemberDTO memberDTO){
+    public void save(MemberDTO memberDTO) throws SQLException {
         memberDTO.setPassword(encoder.encode(memberDTO.getPassword()));
         MemberEntity memberEntity = MemberEntity.toMemberEntity(memberDTO);
         memberRepository.save(memberEntity);
