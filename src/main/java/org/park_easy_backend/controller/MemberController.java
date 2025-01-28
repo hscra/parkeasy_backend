@@ -8,6 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.dao.DataIntegrityViolationException;
+
+import java.sql.SQLException;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/member")
@@ -15,16 +19,20 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/save")
-    public String saveForm() { return "save"; }
-
     @PostMapping("/save")
-    public ResponseEntity<?> save(@ModelAttribute MemberDTO memberDTO) {
+    public ResponseEntity<?> save(@RequestBody MemberDTO memberDTO) {
         try {
             memberService.save(memberDTO);
+        }  catch (DataIntegrityViolationException e) {
+            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("Duplicate entry: The user already exists.");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid data: " + e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error occurred within login procedure");
+                    .body("Error occurred within user save procedure");
         }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -36,18 +44,39 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MemberDTO memberDTO, HttpSession session) {
-        MemberDTO loginResult = memberService.login(memberDTO);
-
-        if (loginResult != null) {
-            // login success
-            session.setAttribute("memberEmail", loginResult.getEmail());
-            session.setAttribute("memberName", loginResult.getName());
-
-            return ResponseEntity.ok(loginResult);
+        // Check if user logged in already
+        if (session.getAttribute("member") != null) {
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
 
-        // login fail
+        // Login
+        MemberDTO loginResult = memberService.login(memberDTO);
+        if (loginResult != null) {
+            // Login success
+            session.setAttribute("member", loginResult);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+
+        // Response on fail
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Error occurred within login procedure");
+
+    }
+
+    @GetMapping("/currentUser")
+    public ResponseEntity<?> getCurrentUser(HttpSession session) {
+        Optional<MemberDTO> member = Optional.ofNullable((MemberDTO) session.getAttribute("member"));
+
+        if (member.isPresent()) {
+            return ResponseEntity.ok(member);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("");
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpSession session) {
+        session.invalidate();
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
