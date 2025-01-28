@@ -81,6 +81,11 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.32</version>
 		</dependency>
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>28.3.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -90,5 +95,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
