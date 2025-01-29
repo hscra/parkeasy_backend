@@ -2,12 +2,14 @@ package org.park_easy_backend.service;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Customer;
-import com.stripe.model.PaymentIntent;
-import com.stripe.param.CustomerCreateParams;
-import com.stripe.param.PaymentIntentCreateParams;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
+import com.stripe.param.checkout.SessionCreateParams.LineItem.PriceData.ProductData;
+import com.stripe.param.checkout.SessionCreateParams.LineItem.PriceData;
+import com.stripe.param.checkout.SessionCreateParams.LineItem;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
+import org.park_easy_backend.dto.StripeRequest;
+import org.park_easy_backend.dto.StripeResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,37 +19,53 @@ public class PaymentService {
     @Value("${STRIPE_KEY}")
     private String key;
 
+    @Value("${CLIENT_DOMAIN}")
+    private String clientDomain;
+
+    private String defaultCurrency = "USD";
+
     @PostConstruct
     public void init(){
         Stripe.apiKey = key;
     }
 
+    public StripeResponse checkout(StripeRequest req) {
+        ProductData productData = ProductData.builder()
+                .setName(req.getName()).build();
 
-    public PaymentIntent createPaymentIntent(long amount, String currency) throws StripeException {
-        PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-                .setAmount(amount)
-                .setCurrency(currency)
+
+        PriceData priceData = PriceData.builder()
+                .setCurrency(req.getCurrency() == null ? defaultCurrency : req.getCurrency())
+                .setUnitAmount(req.getAmount())
+                .setProductData(productData)
                 .build();
 
-        return PaymentIntent.create(params);
-    }
-
-    public Customer createCustomer(String email, String name) throws StripeException {
-        CustomerCreateParams params = CustomerCreateParams.builder()
-                .setEmail(email)
-                .setName(name)
+        LineItem lineItem = LineItem.builder()
+                .setQuantity(req.getQuantity())
+                .setPriceData(priceData)
                 .build();
 
-        return Customer.create(params);
-    }
+        SessionCreateParams params = SessionCreateParams.builder()
+                .setMode(SessionCreateParams.Mode.PAYMENT)
+                .setSuccessUrl(clientDomain + "/success")
+                .setCancelUrl(clientDomain + "/cancel")
+                .addLineItem(lineItem)
+                .build();
 
-    public PaymentIntent getPaymentIntent(String paymentIntentId) throws StripeException {
-        return PaymentIntent.retrieve(paymentIntentId);
-    }
+        Session session = null;
 
-    public PaymentIntent cancelPaymentIntent(String paymentIntentId) throws StripeException {
-        PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentIntentId);
-        return paymentIntent.cancel();
-    }
+        try {
+            session = Session.create(params);
+        } catch (StripeException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
 
+        return StripeResponse.builder()
+                .status("SUCCESS")
+                .message("Payment session created")
+                .sessionId(session.getId())
+                .sessionUri(session.getUrl())
+                .build();
+    }
 }
