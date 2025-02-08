@@ -21,6 +21,14 @@ public class ParkingSpaceService {
         parkingSpaceRepository.save(parkingSpaceEntity);
     }
 
+    @Transactional
+    public void saveAll(List<ParkingSpaceDTO> parkingSpaceDTOList) {
+        List<ParkingSpaceEntity> parkingSpaceEntities = parkingSpaceDTOList.stream()
+                .map(ParkingSpaceEntity::toParkingSpaceEntity)
+                .toList();
+        parkingSpaceRepository.saveAll(parkingSpaceEntities);
+    }
+
     public List<ParkingSpaceDTO> findAll(){
         List<ParkingSpaceEntity> parkingSpaceEntities = parkingSpaceRepository.findAll();
         List<ParkingSpaceDTO> parkingSpaceDTOs = new ArrayList<>();
