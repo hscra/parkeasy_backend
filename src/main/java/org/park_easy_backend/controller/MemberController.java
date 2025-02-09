@@ -22,6 +22,7 @@ import java.util.Optional;
 public class MemberController {
     private final MemberService memberService;
     private final JwtUtil jwtUtil;
+    private final String sessionCookieName = "authToken";
 
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody MemberDTO memberDTO) {
@@ -60,7 +61,7 @@ public class MemberController {
             session.setAttribute("member", loginResult);
 
             String jwtToken = jwtUtil.generateToken(memberDTO.getEmail());
-            Cookie cookie = new Cookie("authToken", jwtToken);
+            Cookie cookie = new Cookie(sessionCookieName, jwtToken);
             cookie.setHttpOnly(true);
             cookie.setSecure(true);
             cookie.setPath("/");
@@ -86,8 +87,15 @@ public class MemberController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpSession session) {
+    public ResponseEntity<?> logout(HttpSession session, HttpServletResponse response) {
         session.invalidate();
+
+        Cookie cookie = new Cookie(sessionCookieName, null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        response.addCookie(cookie);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
