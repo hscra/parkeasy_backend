@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -40,6 +41,24 @@ public class MemberController {
                     .body("Error occurred within user save procedure");
         }
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/saveAll")
+    public ResponseEntity<?> saveAll(@RequestBody List<MemberDTO> memberDTOList) {
+        try {
+            memberService.saveAll(memberDTOList);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (DataIntegrityViolationException e) {
+            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("Duplicate entry: One or more users already exist.");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid data: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error occurred within bulk user save procedure");
+        }
     }
 
     @GetMapping("/login")
