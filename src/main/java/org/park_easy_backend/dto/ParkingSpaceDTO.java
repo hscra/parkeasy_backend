@@ -15,12 +15,14 @@ public class ParkingSpaceDTO {
     private Long Id;
     private Long city_Id;
     private Boolean availability;
+    private Double price;
 
     public static ParkingSpaceDTO toParkingSpaceDTO(ParkingSpaceEntity parkingSpaceEntity) {
         ParkingSpaceDTO parkingSpaceDTO = new ParkingSpaceDTO();
         parkingSpaceDTO.setId(parkingSpaceEntity.getId());
         parkingSpaceDTO.setCity_Id(parkingSpaceEntity.getCity_Id());
         parkingSpaceDTO.setAvailability(parkingSpaceEntity.getAvailability());
+        parkingSpaceDTO.setPrice(parkingSpaceEntity.getPrice());
         return parkingSpaceDTO;
     }
 }

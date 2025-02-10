@@ -26,17 +26,21 @@ public class ReservationEntity {
     @Column(name = "parking_space_id", nullable = false)
     private Long parkingSpaceId;
 
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "start_time", nullable = true)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time", nullable = true)
     private LocalDateTime endTime;
+
+    @Column(name = "payment_status", nullable = true)
+    private Integer paymentStatus;
 
     public static ReservationEntity toReservationEntity(ReservationDTO DTO){
         ReservationEntity entity = new ReservationEntity();
         entity.setReservationId(DTO.getReservationId());
         entity.setUserId(DTO.getUserId());
         entity.setParkingSpaceId(DTO.getParkingSpaceId());
+        entity.setPaymentStatus(DTO.getPaymentStatus());
         entity.setStartTime(DTO.getStartTime());
         entity.setEndTime(DTO.getEndTime());
 
