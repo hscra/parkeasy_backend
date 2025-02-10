@@ -83,4 +83,26 @@ public class ReservationController {
         }
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/completeReservationPayment")
+    public ResponseEntity<?> completeReservationPayment(@RequestParam Long Id) {
+        try {
+            reservationService.updatePaymentStatus(Id, 1);
+            return ResponseEntity.ok("");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("getAllInCity error");
+        }
+    }
+
+    @PostMapping("/failReservationPayment")
+    public ResponseEntity<?> failReservationPayment(@RequestParam Long Id) {
+        try {
+            reservationService.updatePaymentStatus(Id, 0);
+            return ResponseEntity.ok("");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("getAllInCity error");
+        }
+    }
 }

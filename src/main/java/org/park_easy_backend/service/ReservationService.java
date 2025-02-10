@@ -1,5 +1,6 @@
 package org.park_easy_backend.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.park_easy_backend.dto.ParkingSpaceDTO;
 import org.park_easy_backend.dto.ReservationDTO;
@@ -89,4 +90,14 @@ public class ReservationService {
         }
     }
 
+    @Transactional
+    public void updatePaymentStatus(Long Id, Integer newStatus){
+        Optional<ReservationEntity> entity = reservationRepository.findById(Id);
+
+        if(entity.isPresent()){
+            ReservationEntity reservationEntity = entity.get();
+            reservationEntity.setPaymentStatus(newStatus);
+            reservationRepository.save(reservationEntity);
+        }
+    }
 }
