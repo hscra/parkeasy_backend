@@ -31,6 +31,19 @@ public class ParkingSpaceController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PostMapping("/saveBulk")
+    public ResponseEntity<?> saveBulk(@RequestBody List<ParkingSpaceDTO> parkingSpaces) {
+        try {
+            for (ParkingSpaceDTO dto : parkingSpaces) {
+                parkingSpaceService.save(dto);
+            }
+            return ResponseEntity.status(HttpStatus.OK).body("Parking spaces saved successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error occurred while saving parking spaces: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllParkingSpaces(){
         try{

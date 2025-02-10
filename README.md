@@ -1,19 +1,83 @@
-## 1. Using Database
+# Backend
 
-Database connection will be established in main so no worries about that
+## 1. Endpoints and important info
 
-#### usage of executeQuery()
+### - User related endpoints
+All user endpoints are mapped to
+```
+/member/*
+```
+#### - Saving user
+```
+/save
+```
+User body format:
+```
 
-use when inserting with params (or without)
+```
 
-1. create string with query for ex "INSERT INTO table (where, where) VALUES (?,?)"
-2. executeQuery(sqlString, param1, param2, ...)
+### - Map/locations related endpoints
+All map endpoints are mapped to:
+```
+/location/*
+```
+#### - Creating location
+```
+/location/save
+```
+Location body format:
+```
+{
+    "id": 1,
+    "city": "Kraków",
+    "lng": 19.945,
+    "lat": 50.0647
+}
+```
+#### - Getting location by id
+```
+/location/get
+```
+Required param *id = ?*
 
-#### usage of executeSimpleQuery()
+#### - Getting all locations
+```
+/location/getAllLocations
+```
+No param required
 
-use for simple queries like CREATE TABLE
+### - Parking space related endpoints
+All parking space endpoints are mapped to:
+```
+/parking/*
+```
+#### - Creating parking space
+```
+/parking/save
+```
+Parking space body format
+```
+{
+    "city_Id": 1,
+    "availability": true,
+    "id": 2
+}
+```
+#### - Getting all parking spaces
+```
+/parking/getAll
+```
+No params required
 
-1. create string
-2. executeSimpleQuery(string)
+#### - Getting parking space by id
+```
+/parking/get
+```
+Required param *id = ?*
 
-basically we use Array of strings to pass queries and array of arrays to pass params
+#### - Getting all in city
+```
+/parking/getAllInCity
+```
+Required param *id = ?* (id of city)
+

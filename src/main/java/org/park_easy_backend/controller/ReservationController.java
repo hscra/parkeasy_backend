@@ -21,7 +21,7 @@ public class ReservationController {
             reservationService.makeReservation(reservationDTO);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Parking space is occupied during that timeframe");
+                    .body("Parking space is occupied");
         } catch(Exception ee) {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error during reservation creation");
