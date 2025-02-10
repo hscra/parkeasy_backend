@@ -50,8 +50,7 @@ public class ReservationService {
         List<ReservationEntity> entities = reservationRepository.findAll();
         List<ReservationDTO> DTOs = new ArrayList<>();
 
-        for(ReservationEntity entity : entities) {
-
+        for (ReservationEntity entity : entities) {
             ParkingSpaceDTO parkingSpaceDTO = parkingSpaceService.findParkingSpaceEntityById(entity.getParkingSpaceId());
 
             if (parkingSpaceDTO != null && parkingSpaceDTO.getCity_Id().equals(Id)) {
@@ -68,12 +67,11 @@ public class ReservationService {
     }
 
     public void makeReservation(ReservationDTO DTO){
-
         Long spaceId = DTO.getParkingSpaceId();
 
-        if(!parkingSpaceService.findParkingSpaceEntityById(spaceId).getAvailability()){
+        if (!parkingSpaceService.findParkingSpaceEntityById(spaceId).getAvailability()) {
             throw new IllegalArgumentException();
-        }else {
+        } else {
             ReservationEntity reservationEntity = ReservationEntity.toReservationEntity(DTO);
             reservationRepository.save(reservationEntity);
             parkingSpaceService.changeAvailability(spaceId, false);
@@ -84,7 +82,7 @@ public class ReservationService {
     public void removeReservation(Long Id){
         Optional<ReservationEntity> entity = reservationRepository.findById(Id);
 
-        if(entity.isPresent()){
+        if (entity.isPresent()) {
             ReservationEntity reservationEntity = entity.get();
             parkingSpaceService.changeAvailability(reservationEntity.getParkingSpaceId(), true);
             reservationRepository.delete(reservationEntity);

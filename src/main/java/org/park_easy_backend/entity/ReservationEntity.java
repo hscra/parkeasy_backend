@@ -26,10 +26,10 @@ public class ReservationEntity {
     @Column(name = "parking_space_id", nullable = false)
     private Long parkingSpaceId;
 
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "start_time", nullable = true)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time", nullable = true)
     private LocalDateTime endTime;
 
     @Column(name = "payment_status", nullable = true)
