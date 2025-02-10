@@ -8,7 +8,7 @@ import org.park_easy_backend.dto.ParkingSpaceDTO;
 @Entity
 @Setter
 @Getter
-@Table(name = "parkingSpaces")
+@Table(name = "parking_spaces")
 public class ParkingSpaceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +20,15 @@ public class ParkingSpaceEntity {
     @Column(name = "availability")
     private Boolean availability;
 
+    @Column(name = "price", nullable = false)
+    private Double price;
+
     public static ParkingSpaceEntity toParkingSpaceEntity(ParkingSpaceDTO parkingSpaceDTO){
         ParkingSpaceEntity parkingSpaceEntity = new ParkingSpaceEntity();
         parkingSpaceEntity.setId(parkingSpaceDTO.getId());
         parkingSpaceEntity.setCity_Id(parkingSpaceDTO.getCity_Id());
         parkingSpaceEntity.setAvailability(parkingSpaceDTO.getAvailability());
+        parkingSpaceEntity.setPrice(parkingSpaceDTO.getPrice());
 
         return parkingSpaceEntity;
     }
