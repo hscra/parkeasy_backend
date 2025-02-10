@@ -32,11 +32,15 @@ public class ReservationEntity {
     @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
+    @Column(name = "payment_status", nullable = true)
+    private Integer paymentStatus;
+
     public static ReservationEntity toReservationEntity(ReservationDTO DTO){
         ReservationEntity entity = new ReservationEntity();
         entity.setReservationId(DTO.getReservationId());
         entity.setUserId(DTO.getUserId());
         entity.setParkingSpaceId(DTO.getParkingSpaceId());
+        entity.setPaymentStatus(DTO.getPaymentStatus());
         entity.setStartTime(DTO.getStartTime());
         entity.setEndTime(DTO.getEndTime());
 

@@ -19,12 +19,14 @@ public class ReservationDTO {
     private LocalDateTime startTime;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endTime;
+    private Integer paymentStatus;
 
     public static ReservationDTO toReservationDTO(ReservationEntity entity){
         ReservationDTO DTO = new ReservationDTO();
         DTO.setReservationId(entity.getReservationId());
         DTO.setUserId(entity.getUserId());
         DTO.setParkingSpaceId(entity.getParkingSpaceId());
+        DTO.setPaymentStatus(entity.getPaymentStatus());
         DTO.setStartTime(entity.getStartTime());
         DTO.setEndTime(entity.getEndTime());
 
