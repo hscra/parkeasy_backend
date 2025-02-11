@@ -84,7 +84,7 @@ public class MemberController {
             cookie.setHttpOnly(true);
             cookie.setSecure(true);
             cookie.setPath("/");
-            cookie.setMaxAge(60 * 60 * 24); // 1-day expiration
+            cookie.setMaxAge(60 * 24); // 1-hour expiration
             response.addCookie(cookie);
 
             return ResponseEntity.status(HttpStatus.OK).build();

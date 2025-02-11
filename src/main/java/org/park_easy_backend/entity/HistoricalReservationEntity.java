@@ -6,14 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.park_easy_backend.dto.ReservationDTO;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Setter
 @Getter
-@Table(name = "reservations")
-public class ReservationEntity {
+@Table(name = "historical_reservations")
+public class HistoricalReservationEntity {
 
     @JsonIgnore
     @Id
@@ -38,8 +37,8 @@ public class ReservationEntity {
     @Column(name = "points", nullable = true)
     private Long points;
 
-    public static ReservationEntity toReservationEntity(ReservationDTO DTO){
-        ReservationEntity entity = new ReservationEntity();
+    public static HistoricalReservationEntity toReservationEntity(ReservationDTO DTO){
+        HistoricalReservationEntity entity = new HistoricalReservationEntity();
         entity.setReservationId(DTO.getReservationId());
         entity.setUserId(DTO.getUserId());
         entity.setParkingSpaceId(DTO.getParkingSpaceId());

@@ -4,8 +4,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.park_easy_backend.dto.ParkingSpaceDTO;
 import org.park_easy_backend.dto.ReservationDTO;
+import org.park_easy_backend.entity.MemberEntity;
 import org.park_easy_backend.entity.ParkingSpaceEntity;
 import org.park_easy_backend.entity.ReservationEntity;
+import org.park_easy_backend.repository.MemberRepository;
 import org.park_easy_backend.repository.ParkingSpaceRepository;
 import org.park_easy_backend.repository.ReservationRepository;
 import org.springframework.cglib.core.Local;
@@ -21,7 +23,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ReservationService {
     private final ReservationRepository reservationRepository;
+    private final MemberRepository memberRepository;
     private final ParkingSpaceService parkingSpaceService;
+    private final HistoricalReservationService historicalReservationService;
+    private final MemberService memberService;
 
     public List<ReservationDTO> findAll(){
         List<ReservationEntity> entities = reservationRepository.findAll();
@@ -74,16 +79,21 @@ public class ReservationService {
             throw new IllegalArgumentException();
         } else {
             ReservationEntity reservationEntity = ReservationEntity.toReservationEntity(DTO);
+
+            if (reservationEntity.getPoints() == null) {
+                reservationEntity.setPoints(100L);
+            }
+
             reservationRepository.save(reservationEntity);
             parkingSpaceService.changeAvailability(spaceId, false);
         }
-
     }
 
     public void removeReservation(Long Id){
         Optional<ReservationEntity> entity = reservationRepository.findById(Id);
 
         if (entity.isPresent()) {
+            historicalReservationService.archiveReservation(Id);
             ReservationEntity reservationEntity = entity.get();
             parkingSpaceService.changeAvailability(reservationEntity.getParkingSpaceId(), true);
             reservationRepository.delete(reservationEntity);
@@ -92,12 +102,21 @@ public class ReservationService {
 
     @Transactional
     public void updatePaymentStatus(Long Id, Integer newStatus){
-        Optional<ReservationEntity> entity = reservationRepository.findById(Id);
+        Optional<ReservationEntity> optionalReservationEntity = reservationRepository.findById(Id);
+        if (optionalReservationEntity.isEmpty()) { return; }
 
-        if(entity.isPresent()){
-            ReservationEntity reservationEntity = entity.get();
-            reservationEntity.setPaymentStatus(newStatus);
-            reservationRepository.save(reservationEntity);
-        }
+        ReservationEntity reservationEntity = optionalReservationEntity.get();
+
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(reservationEntity.getUserId());
+        if (optionalMemberEntity.isEmpty()) { return; }
+
+        MemberEntity memberEntity = optionalMemberEntity.get();
+
+        reservationEntity.setPaymentStatus(newStatus);
+        reservationRepository.save(reservationEntity);
+
+        Long targetMemberPoints = memberEntity.getPoints() + reservationEntity.getPoints();
+        memberEntity.setPoints(targetMemberPoints);
+
     }
 }

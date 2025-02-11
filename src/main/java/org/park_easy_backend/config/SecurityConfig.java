@@ -21,7 +21,8 @@ public class SecurityConfig {
                                 "/location/**",
                                 "/parking/**",
                                 "/reservation/**",
-                                "/payments/**"
+                                "/payments/**",
+                                "/historical_reservation/**"
                         ).permitAll()
                         .requestMatchers("/main").authenticated()
                         .anyRequest().authenticated()
