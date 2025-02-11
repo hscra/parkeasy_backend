@@ -35,7 +35,7 @@ public class ReservationEntity {
     @Column(name = "payment_status", nullable = true)
     private Integer paymentStatus;
 
-    @Column(name = "points", nullable = false)
+    @Column(name = "points", nullable = true)
     private Long points;
 
     public static ReservationEntity toReservationEntity(ReservationDTO DTO){

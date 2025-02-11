@@ -78,10 +78,14 @@ public class ReservationService {
             throw new IllegalArgumentException();
         } else {
             ReservationEntity reservationEntity = ReservationEntity.toReservationEntity(DTO);
+
+            if (reservationEntity.getPoints() == null) {
+                reservationEntity.setPoints(100L);
+            }
+
             reservationRepository.save(reservationEntity);
             parkingSpaceService.changeAvailability(spaceId, false);
         }
-
     }
 
     public void removeReservation(Long Id){
