@@ -18,6 +18,7 @@ public class MemberDTO {
     private String password;
 
     private String name;
+    private Long points;
 
     public static MemberDTO toMemberDTO(MemberEntity memberEntity) {
         MemberDTO memberDTO = new MemberDTO();
@@ -25,6 +26,7 @@ public class MemberDTO {
         memberDTO.setEmail(memberEntity.getEmail());
         memberDTO.setPassword(memberEntity.getPassword());
         memberDTO.setName(memberEntity.getName());
+        memberDTO.setPoints(memberEntity.getPoints());
         return memberDTO;
     }
 
@@ -33,6 +35,7 @@ public class MemberDTO {
         memberDTO.setId(memberEntity.getId());
         memberDTO.setEmail(memberEntity.getEmail());
         memberDTO.setName(memberEntity.getName());
+        memberDTO.setPoints(memberEntity.getPoints());
         return memberDTO;
     }
 }

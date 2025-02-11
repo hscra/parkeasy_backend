@@ -46,4 +46,16 @@ public class MemberService {
 
         return null;
     }
+
+//    @Transactional
+//    public void addMemberPoints(Long Id, Long points){
+//        Optional<MemberEntity> entity = memberRepository.findById(Id);
+//
+//        if(entity.isPresent()){
+//            MemberEntity memberEntity = entity.get();
+//            Long newPoints = memberEntity.getPoints() + points;
+//            memberEntity.setPoints(newPoints);
+//            memberRepository.save(memberEntity);
+//        }
+//    }
 }

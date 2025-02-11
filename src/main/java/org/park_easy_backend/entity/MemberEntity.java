@@ -23,11 +23,15 @@ public class MemberEntity {
     @Column
     private String name;
 
+    @Column
+    private Long points;
+
     public static MemberEntity toMemberEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setEmail(memberDTO.getEmail());
         memberEntity.setPassword(memberDTO.getPassword());
         memberEntity.setName(memberDTO.getName());
+        memberEntity.setPoints(memberDTO.getPoints());
         return memberEntity;
     }
 }

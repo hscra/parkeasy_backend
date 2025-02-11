@@ -35,6 +35,9 @@ public class ReservationEntity {
     @Column(name = "payment_status", nullable = true)
     private Integer paymentStatus;
 
+    @Column(name = "points", nullable = false)
+    private Long points;
+
     public static ReservationEntity toReservationEntity(ReservationDTO DTO){
         ReservationEntity entity = new ReservationEntity();
         entity.setReservationId(DTO.getReservationId());
@@ -43,6 +46,7 @@ public class ReservationEntity {
         entity.setPaymentStatus(DTO.getPaymentStatus());
         entity.setStartTime(DTO.getStartTime());
         entity.setEndTime(DTO.getEndTime());
+        entity.setPoints(DTO.getPoints());
 
         return entity;
     }
