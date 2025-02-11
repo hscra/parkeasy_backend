@@ -76,6 +76,7 @@ public class ReservationController {
     @DeleteMapping("/delete")
     public ResponseEntity<?> removeReservationById(@RequestParam Long Id) {
         try {
+
             reservationService.removeReservation(Id);
         } catch (Exception e) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

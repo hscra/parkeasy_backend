@@ -25,6 +25,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final MemberRepository memberRepository;
     private final ParkingSpaceService parkingSpaceService;
+    private final HistoricalReservationService historicalReservationService;
     private final MemberService memberService;
 
     public List<ReservationDTO> findAll(){
@@ -92,6 +93,7 @@ public class ReservationService {
         Optional<ReservationEntity> entity = reservationRepository.findById(Id);
 
         if (entity.isPresent()) {
+            historicalReservationService.archiveReservation(Id);
             ReservationEntity reservationEntity = entity.get();
             parkingSpaceService.changeAvailability(reservationEntity.getParkingSpaceId(), true);
             reservationRepository.delete(reservationEntity);
