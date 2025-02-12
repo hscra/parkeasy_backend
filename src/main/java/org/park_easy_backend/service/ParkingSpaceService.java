@@ -50,7 +50,7 @@ public class ParkingSpaceService {
         List<ParkingSpaceDTO> parkingSpaceDTOS = new ArrayList<>();
 
         for(ParkingSpaceEntity entity : parkingSpaceEntities){
-            if(entity.getCity_Id().equals(Id)) {
+            if(entity.getCity_Id().getId().equals(Id)) {
                 parkingSpaceDTOS.add(ParkingSpaceDTO.toParkingSpaceDTO(entity));
             }
         }

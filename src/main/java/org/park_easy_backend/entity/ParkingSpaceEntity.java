@@ -14,8 +14,9 @@ public class ParkingSpaceEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    @ManyToOne
     @JoinColumn(name = "city_Id", nullable = false)
-    private Long city_Id;
+    private LocationEntity city_Id;
 
     @Column(name = "availability")
     private Boolean availability;
@@ -26,11 +27,14 @@ public class ParkingSpaceEntity {
     public static ParkingSpaceEntity toParkingSpaceEntity(ParkingSpaceDTO parkingSpaceDTO){
         ParkingSpaceEntity parkingSpaceEntity = new ParkingSpaceEntity();
         parkingSpaceEntity.setId(parkingSpaceDTO.getId());
-        parkingSpaceEntity.setCity_Id(parkingSpaceDTO.getCity_Id());
+
+        LocationEntity city = new LocationEntity();
+        city.setId(parkingSpaceDTO.getId());
+        parkingSpaceEntity.setCity_Id(city);
+        
         parkingSpaceEntity.setAvailability(parkingSpaceDTO.getAvailability());
         parkingSpaceEntity.setPrice(parkingSpaceDTO.getPrice());
 
         return parkingSpaceEntity;
     }
-
 }

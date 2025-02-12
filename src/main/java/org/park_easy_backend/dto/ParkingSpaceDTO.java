@@ -14,13 +14,19 @@ import org.park_easy_backend.entity.ParkingSpaceEntity;
 public class ParkingSpaceDTO {
     private Long Id;
     private Long city_Id;
+    private String city_name;
     private Boolean availability;
     private Double price;
 
     public static ParkingSpaceDTO toParkingSpaceDTO(ParkingSpaceEntity parkingSpaceEntity) {
         ParkingSpaceDTO parkingSpaceDTO = new ParkingSpaceDTO();
         parkingSpaceDTO.setId(parkingSpaceEntity.getId());
-        parkingSpaceDTO.setCity_Id(parkingSpaceEntity.getCity_Id());
+
+        if (parkingSpaceEntity.getCity_Id() != null) {
+            parkingSpaceDTO.setCity_Id(parkingSpaceEntity.getCity_Id().getId());
+            parkingSpaceDTO.setCity_name(parkingSpaceEntity.getCity_Id().getCity());
+
+        }
         parkingSpaceDTO.setAvailability(parkingSpaceEntity.getAvailability());
         parkingSpaceDTO.setPrice(parkingSpaceEntity.getPrice());
         return parkingSpaceDTO;
